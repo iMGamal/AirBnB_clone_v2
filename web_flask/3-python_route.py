@@ -1,5 +1,7 @@
 #!/usr/bin/python3
 """Module for flask server."""
+
+
 from flask import Flask
 
 web_app = Flask(__name__)
