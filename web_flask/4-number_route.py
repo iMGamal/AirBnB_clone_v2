@@ -1,43 +1,41 @@
 #!/usr/bin/python3
-"""Module for flask server."""
-
-
+"""start a flack server listening on port 5000 handling '/'"""
 from flask import Flask
+from markupsafe import escape
+app = Flask(__name__)
 
-web_app = Flask(__name__)
 
-
-@web_app.route('/', strict_slashes=False)
-def welcome():
-    """Handle initial route."""
+@app.route("/", strict_slashes=False)
+def hello_hbnb():
+    """handling / route"""
     return "Hello HBNB!"
 
 
-@web_app.route('/hbnb', strict_slashes=False)
+@app.route("/hbnb", strict_slashes=False)
 def hbnb():
-    """Handle second route."""
+    """handling hbnb route"""
     return "HBNB"
 
 
-@web_app.route('/c/<text>', strict_slashes=False)
-def c(text):
-    """Handle third route."""
-    formatted = text.replace('_', ' ')
-    return f"C {formatted}"
+@app.route("/c/<text>", strict_slashes=False)
+def c_text(text):
+    """handling varible routes"""
+    return f"C {escape(text.replace('_', ' '))}"
 
 
-@web_app.route('/python/<text>', strict_slashes=False)
-def python(text="is cool"):
-    formatted = text.replace('_', ' ')
-    return f"Python {formatted}"
+@app.route("/python/", strict_slashes=False)
+@app.route("/python/<text>", strict_slashes=False)
+def python_text(text="is cool"):
+    """handling varible routes"""
+    return f"Python {escape(text.replace('_', ' '))}"
 
 
-@web_app.route('/number/<n>', strict_slashes=False)
-def number(n):
-    if n.isdigit():
-        return f"{n} is a number"
-    return "NULL"
+@app.route("/number/<int:n>", strict_slashes=False)
+def is_a_number(n):
+    """handling numbers only"""
+    return f"{escape(n)} is a number"
 
 
-web_app.run(host='0.0.0.0', port=5000)
-
+if __name__ == '__main__':
+    """start the server"""
+    app.run(host='0.0.0.0', port=5000)

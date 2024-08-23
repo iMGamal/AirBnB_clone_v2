@@ -1,30 +1,28 @@
 #!/usr/bin/python3
-"""Module for flask server."""
-
-
+"""start a flack server listening on port 5000 handling '/'"""
 from flask import Flask
+from markupsafe import escape
+app = Flask(__name__)
 
-web_app = Flask(__name__)
 
-
-@web_app.route('/', strict_slashes=False)
-def welcome():
-    """Handle initial route."""
+@app.route("/", strict_slashes=False)
+def hello_hbnb():
+    """handling / route"""
     return "Hello HBNB!"
 
 
-@web_app.route('/hbnb', strict_slashes=False)
+@app.route("/hbnb", strict_slashes=False)
 def hbnb():
-    """Handle second route."""
+    """handling hbnb route"""
     return "HBNB"
 
 
-@web_app.route('/c/<text>', strict_slashes=False)
-def c(text):
-    """Handle third route."""
-    formatted = text.replace('_', ' ')
-    return f"C {formatted}"
+@app.route("/c/<text>", strict_slashes=False)
+def c_text(text):
+    """handling varible routes"""
+    return f"C {escape(text.replace('_', ' '))}"
 
 
-web_app.run(host='0.0.0.0', port=5000)
-
+if __name__ == '__main__':
+    """start the server"""
+    app.run(host='0.0.0.0', port=5000)
